@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset=utf-8 />
+<title>/dev/VIP/0x00sec - VIP Posts</title>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    var items = location.search.substr(1).split("&");
+    for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    }
+    return result;
+}
+
+	$(document).ready(function() {
+		var URL = window.location.protocol + "//" + window.location.host + "/"
+		if (findGetParameter("year") != null) {
+			var my_year = findGetParameter("year")
+		} else {
+			var my_year = "2019";
+		}
+
+		$.ajax({
+  				url: `${URL}years`,
+			})
+  			.done(function( data ) {
+  				let years = JSON.parse(data);
+  				let years_html = ``;
+
+  				for(let i=0; i<years.length; i++) {
+  					if (years[i] == my_year) {
+  						active = `class="active"`;
+  					} 
+  					else {
+  						active = ``;
+  					}
+  					years_html += `<li><a href="?year=${years[i]}" ${active}>${years[i]}</a></li>`
+  				}
+
+  				$("#years").html(years_html);
+  		});
+
+		$.ajax({
+  				url: `${URL}api`,
+  				data: { year: my_year }
+			})
+  			.done(function( data ) {
+  				let posts_html = `<span class="views">Newest</span><br>`; 
+  				let posts = JSON.parse(data)
+  				for(let i=0; i<posts.length; i++) {
+  					console.log(posts[i]);
+  					posts_html += `<a href="https://0x00sec.org/u/${posts[i]["username"]}"><span class="username"> ${posts[i]["username"]}</span> </a><a href="https://0x00sec.org/t/${posts[i]["id"]}">0x${i} ${posts[i]["title"]} <span class="views"> ${Math.round(posts[i]["views"] / 100) / 10}k </span><span class="date"> ${posts[i]["created_at"].split("T")[0]} </span></a><br/>`
+  				}
+
+  				posts_html += `<span class="views">Oldest</span><br>`;
+  				$("#posts").html(posts_html);
+  			});
+		});
+</script>
+<style type=text/css>.views {color:#FFF;} .date {color:red;} .username {color:#fe6630;} ul {list-style-type: none;margin: 0;padding: 0;overflow: hidden;} li {float: left;} li a {display: inline-block;color: white;text-align: center;padding-right:16px;text-decoration: none;} .active {color: #1793d1;} body{background-color: #1f1f1f; font-family: courier; margin:40px auto;max-width:72%;text-align:justify;line-height:1.6;font-sizie:16px;color:#fff;padding:0 10px}h1,h2,h3{line-height:1.2}a{color: #1793d1; text-decoration: none;}a:hover{color: #cad0c4}</style>
+</head>
+<h1>/dev/VIP/0x00sec </h1>
+<h3>
+	<ul id="years">
+	</ul>
+</h3>
+<body>
+	<div id="posts">
+	</div>
+	<script src="//instant.page/3.0.0" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+</body>
+</html>
