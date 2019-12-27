@@ -53,7 +53,7 @@ function findGetParameter(parameterName) {
   				let posts = JSON.parse(data)
   				for(let i=0; i<posts.length; i++) {
   					console.log(posts[i]);
-  					posts_html += `<a href="https://0x00sec.org/u/${posts[i]["username"]}"><span class="username"> ${posts[i]["username"]}</span> </a><a href="https://0x00sec.org/t/${posts[i]["id"]}">0x${i} ${posts[i]["title"]} <span class="views"> ${Math.round(posts[i]["views"] / 100) / 10}k </span><span class="date"> ${posts[i]["created_at"].split("T")[0]} </span></a><br/>`
+  					posts_html += `<a href="https://0x00sec.org/u/${posts[i]["username"]}"><span class="username"> ${posts[i]["username"]}</span> </a><a href="/t/${posts[i]["id"]}/">0x${i} ${posts[i]["title"]} <span class="views"> ${Math.round(posts[i]["views"] / 100) / 10}k </span><span class="date"> ${posts[i]["created_at"].split("T")[0]} </span></a><br/>`
   				}
 
   				posts_html += `<span class="views">Oldest</span><br>`;
