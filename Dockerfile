@@ -12,4 +12,4 @@ RUN bundle install
 COPY . .
 EXPOSE 8080
 
-CMD ["ruby", "./vip.rb"]
+CMD ["ruby", "./blog.rb"]
